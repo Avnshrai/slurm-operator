@@ -93,6 +93,14 @@ type NodeSetSpec struct {
 	// Defaults to 0 (pod will be considered available as soon as it is ready).
 	// +optional
 	MinReadySeconds int32 `json:"minReadySeconds,omitempty"`
+
+	// extraVolumes allows specifying additional volumes to be added to the pod spec.
+	// +optional
+	ExtraVolumes []corev1.Volume `json:"extraVolumes,omitempty"`
+
+	// extraVolumeMounts allows specifying additional volume mounts to be added to the main container.
+	// +optional
+	ExtraVolumeMounts []corev1.VolumeMount `json:"extraVolumeMounts,omitempty"`
 }
 
 // NodeSetUpdateStrategy indicates the strategy that the NodeSet

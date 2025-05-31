@@ -26,6 +26,14 @@ func NewNodeSetPod(nodeset *slinkyv1alpha1.NodeSet, ordinal int, revisionHash st
 	initIdentity(nodeset, pod)
 	UpdateStorage(nodeset, pod)
 
+	// Inject extraVolumes and extraVolumeMounts if specified in the NodeSet spec
+	if len(nodeset.Spec.ExtraVolumes) > 0 {
+		pod.Spec.Volumes = append(pod.Spec.Volumes, nodeset.Spec.ExtraVolumes...)
+	}
+	if len(nodeset.Spec.ExtraVolumeMounts) > 0 && len(pod.Spec.Containers) > 0 {
+		pod.Spec.Containers[0].VolumeMounts = append(pod.Spec.Containers[0].VolumeMounts, nodeset.Spec.ExtraVolumeMounts...)
+	}
+
 	if revisionHash != "" {
 		historycontrol.SetRevision(pod.Labels, revisionHash)
 	}

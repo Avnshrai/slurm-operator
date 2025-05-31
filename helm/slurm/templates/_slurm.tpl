@@ -179,7 +179,7 @@ Define slurm accounting database secret
 {{- else if and .Values.accounting.external.enabled }}
   {{- printf "%s-database" (include "slurm.accounting.name" .) }}
 {{- else }}
-  {{- template "mariadb.secretName" .Subcharts.mariadb }}
+  {{- printf "%s-mariadb" .Release.Name }}
 {{- end }}
 {{- end }}
 
